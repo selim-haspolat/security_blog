@@ -9,3 +9,45 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Post {
+  id        String    @id @default(cuid())
+  title     String
+  content   String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  keyword   String[]
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted Boolean   @default(false)
+  isActive  Boolean   @default(true)
+  isAdmin   Boolean   @default(false)
+  isAuthor  Boolean   @default(false)
+}
+
+model InvitationCode {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  createdAt DateTime  @default(now())
+  userId    String?
+}
+
+model Like {
+  id        String  @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+}
+
+model Views {
+  id        String  @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+}
